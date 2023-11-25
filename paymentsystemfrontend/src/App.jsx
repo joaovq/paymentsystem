@@ -33,13 +33,18 @@ function App() {
 
   return (
     <>
+      <main className='p-5'>
       <div>
-        <h1 className='text-3xl px-4'>Importação de CNAB</h1>
+        <h1 className=' text-4xl'>Importação de CNAB</h1>
       </div>
-      <div>
-        <label htmlFor="file">Choose file</label>
-        <input type="file" accept='.txt' name='file' id='file' onChange={handleFileChange} />
-        <button onClick={uploadFile}>Upload file</button>
+      <div className='flex flex-col gap-10 p-4 py-8'>
+        <div className='flex flex-col gap-5'>
+          <label htmlFor="file">Choose file</label>
+          <input type="file" accept='.txt' name='file' id='file' onChange={handleFileChange} />
+        </div>
+        <div>
+          <button onClick={uploadFile} className='bg-green-700 text-white px-5 py-2 rounded-lg'>Upload file</button>
+        </div>
       </div>
       <div>
         <h2>Transações</h2>
@@ -61,7 +66,7 @@ function App() {
                     </tr>
                   </thead>
                   <tbody>
-                    {report.transactions.map((transaction,key) => (
+                    {report.transactions.map((transaction, key) => (
                       <>
                         <tr>
                           <td>{transaction.card}</td>
@@ -82,6 +87,7 @@ function App() {
           ))}
         </ul>
       </div>
+      </main>
     </>
   )
 }
