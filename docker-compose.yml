@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=pagnet
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=123456
+  spring-app:
+    image: backend-pagnet:latest
+    ports:
+      - "8080:8080"
+    environment:
+      DB_URL: jdbc:postgresql://postgres-db:5432/pagnet
+      DB_USER: user
+      DB_PASSWORD: 123456
+    depends_on: 
+      - postgres-db
+  spa-app:
+    build: 
+      context: ./paymentsystemfrontend
+      dockerfile: Dockerfile
+    ports:
+      - "9090:9090"
+    depends_on: 
+      - spring-app
