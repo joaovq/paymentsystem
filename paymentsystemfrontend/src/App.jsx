@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import 'dotenv/config'
 
-const api = axios.create({ baseURL: "http://localhost:8080/" })
+const api = axios.create({ baseURL: process.env.VITE_REACT_APP_BASE_URL })
 
 function App() {
   const [transactions, setTransactions] = useState([])
