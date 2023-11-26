@@ -14,7 +14,7 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 var allowedOrigins = new String[]{
                         "http://localhost:8080",
-                        "https://paymentsystem-pagnet-webapp.onrender.com"
+                    "https://paymentsystem-pagnet-webapp.onrender.com"
                 };
                 registry.addMapping("/cnab").allowedOrigins(allowedOrigins);
                 registry.addMapping("/transactions").allowedOrigins(allowedOrigins);
