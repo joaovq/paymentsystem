@@ -16,8 +16,8 @@ public class CorsConfig {
                         "http://localhost:8080",
                     "https://paymentsystem-pagnet-webapp.onrender.com"
                 };
-                registry.addMapping("/cnab").allowedOrigins(allowedOrigins);
-                registry.addMapping("/transactions").allowedOrigins(allowedOrigins);
+                registry.addMapping("/cnab/**").allowedOrigins(allowedOrigins);
+                registry.addMapping("/transactions/**").allowedOrigins(allowedOrigins);
             }
         };
     }
