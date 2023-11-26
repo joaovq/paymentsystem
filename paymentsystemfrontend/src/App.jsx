@@ -1,12 +1,12 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import 'dotenv/config'
 
-const api = axios.create({ baseURL: process.env.VITE_REACT_APP_BASE_URL })
+const api = axios.create({ baseURL: import.meta.env.VITE_REACT_APP_BASE_URL })
 
 function App() {
   const [transactions, setTransactions] = useState([])
   const [file, setFile] = useState(null)
+  const [message, setMessage] = useState("")
 
   const handleFileChange = e => {
     const file = e.target.files[0]
@@ -21,7 +21,7 @@ function App() {
         'Content-Type': 'multipart/form-data'
       }
     })
-    console.log(response.data)
+    setMessage(response.data)
   }
 
   const fetchTransactions = async () => {
@@ -35,59 +35,62 @@ function App() {
   return (
     <>
       <main className='p-5'>
-      <div>
-        <h1 className=' text-4xl'>Importação de CNAB</h1>
-      </div>
-      <div className='flex flex-col gap-10 p-4 py-8'>
-        <div className='flex flex-col gap-5'>
-          <label htmlFor="file">Choose file</label>
-          <input type="file" accept='.txt' name='file' id='file' onChange={handleFileChange} />
+        <div>
+          <h1 className=' text-4xl'>Importação de CNAB</h1>
+        </div>
+        <div className='flex flex-col gap-10 p-4 py-8'>
+          <div className='flex flex-col gap-5'>
+            <label htmlFor="file">Choose file</label>
+            <input type="file" accept='.txt' name='file' id='file' onChange={handleFileChange} />
+          </div>
+          <div>
+            <button onClick={uploadFile} className='bg-green-700 text-white px-5 py-2 rounded-lg'>Upload file</button>
+          </div>
+          <div>
+            {message}
+          </div>
         </div>
         <div>
-          <button onClick={uploadFile} className='bg-green-700 text-white px-5 py-2 rounded-lg'>Upload file</button>
+          <h2>Transações</h2>
+          <ul>
+            {transactions.map((report, key) => (
+              <>
+                <li>
+                  <table>
+                    <thead>
+                      <tr>
+                        <td>Cartão</td>
+                        <td>Cpf</td>
+                        <td>Data</td>
+                        <td>Dono da loja</td>
+                        <td>Hora</td>
+                        <td>Nome da loja</td>
+                        <td>Tipo</td>
+                        <td>Valor</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {report.transactions.map((transaction, key) => (
+                        <>
+                          <tr>
+                            <td>{transaction.card}</td>
+                            <td>{transaction.cpf}</td>
+                            <td>{transaction.date}</td>
+                            <td>{transaction.ownerStore}</td>
+                            <td>{transaction.time}</td>
+                            <td>{transaction.nameStore}</td>
+                            <td>{transaction.type}</td>
+                            <td>{transaction.value}</td>
+                          </tr>
+                        </>
+                      ))}
+                    </tbody>
+                  </table>
+                </li>
+              </>
+            ))}
+          </ul>
         </div>
-      </div>
-      <div>
-        <h2>Transações</h2>
-        <ul>
-          {transactions.map((report, key) => (
-            <>
-              <li>
-                <table>
-                  <thead>
-                    <tr>
-                      <td>Cartão</td>
-                      <td>Cpf</td>
-                      <td>Data</td>
-                      <td>Dono da loja</td>
-                      <td>Hora</td>
-                      <td>Nome da loja</td>
-                      <td>Tipo</td>
-                      <td>Valor</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {report.transactions.map((transaction, key) => (
-                      <>
-                        <tr>
-                          <td>{transaction.card}</td>
-                          <td>{transaction.cpf}</td>
-                          <td>{transaction.date}</td>
-                          <td>{transaction.ownerStore}</td>
-                          <td>{transaction.time}</td>
-                          <td>{transaction.nameStore}</td>
-                          <td>{transaction.type}</td>
-                          <td>{transaction.value}</td>
-                        </tr>
-                      </>
-                    ))}
-                  </tbody>
-                </table>
-              </li>
-            </>
-          ))}
-        </ul>
-      </div>
       </main>
     </>
   )
