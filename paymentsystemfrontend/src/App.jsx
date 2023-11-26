@@ -14,20 +14,30 @@ function App() {
   }
 
   const uploadFile = async () => {
-    const formData = new FormData()
-    formData.append('file', file)
-    let response = await api.post("cnab/upload", formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-    setMessage(response.data)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      let response = await api.post("cnab/upload", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).catch(reason => {
+        console.log(reason)
+      })
+      setMessage(response.data)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const fetchTransactions = async () => {
-    const response = await api.get("transactions")
-    console.log(response.data)
-    setTransactions(response.data)
+    try {
+      const response = await api.get("transactions")
+      console.log(response.data)
+      setTransactions(response.data)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => { fetchTransactions() }, [])
