@@ -16,7 +16,6 @@ public class CnabController {
         this.cnabService = cnabService;
     }
 
-    @CrossOrigin(origins = {"http://localhost:9090"})
     @PostMapping("upload")
     public String upload(@RequestParam("file") MultipartFile file) throws Exception {
         cnabService.uploadCnabFile(file);

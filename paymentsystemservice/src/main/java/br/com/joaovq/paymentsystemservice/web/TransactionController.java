@@ -21,7 +21,6 @@ public class TransactionController {
     }
 
     @GetMapping
-    @CrossOrigin(origins = {"http://localhost:9090"})
     ResponseEntity<List<TransactionReport>> listAll() {
         return ResponseEntity.ok().body(transactionService.getAllTransactionForNameStore());
     }
